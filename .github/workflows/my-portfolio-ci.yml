@@ -9,38 +9,38 @@ on:
       - develop
   workflow_dispatch:
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-        - name: Set up Node.js
-          uses: actions/setup-node@v2
-          with:
-            node-version: '18'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
 
-        - name: Install dependencies
-          run: npm install
+      - name: Install dependencies
+        run: npm install
 
-        - name: Run tests
-          run: npm test
+      - name: Run tests
+        run: npm test
 
-        - name: Build project
-          run: npm run build
+      - name: Build project
+        run: npm run build
 
-        - name : Build Docker image
-          run: docker build -t my-portfolio:latest .
+      - name : Build Docker image
+        run: docker build -t my-portfolio:latest .
 
-        - name: Tag Docker image
-          run: docker tag my-portfolio:latest docker.io/amitdes/my-portfolio:latest
+      - name: Tag Docker image
+        run: docker tag my-portfolio:latest docker.io/amitdes/my-portfolio:latest
 
-        - name: Docker login
-          uses: docker/login-action@v1
-          with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Docker login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
 
-        - name: Docker push
-          run: docker push docker.io/amitdes/my-portfolio:latest
+      - name: Docker push
+        run: docker push docker.io/amitdes/my-portfolio:latest
